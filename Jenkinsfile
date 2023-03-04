@@ -1,5 +1,6 @@
 pipeline {
     agent { label 'UBUNTU_NODE1' }
+    tools { jdk 'JDK_8' }
     stages {
         stage('vcs') {
             steps {
@@ -10,7 +11,7 @@ pipeline {
         stage('build') {    
             steps { 
                 sh 'export PATH="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH"'   
-                sh 'mvn package'
+                sh 'mvn --version && mvn clean package'
             }
         }
         stage('post build') {
