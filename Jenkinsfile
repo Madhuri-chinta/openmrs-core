@@ -7,10 +7,12 @@ pipeline {
                     branch: 'master'
             }
         }
-        stage('package') {
+        stage('path') {
             steps {
                 sh 'export PATH="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH"'
             }
+        }
+        stage('build') {    
             steps {    
                 sh 'mvn clean package'
             }
