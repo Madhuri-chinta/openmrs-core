@@ -1,25 +1,30 @@
 pipeline {
-    agent { label 'UBUNTU_NODE1' }
-    tools { jdk 'JDK_8' }
+    agent { label 'UBUNTU_NODE1'}
     stages {
-        stage('vcs') {
+        stage ('vcs') {
             steps {
-                git url: 'https://github.com/Madhuri-chinta/openmrs-core.git',
+                git url: 'https://github.com/openmrs/openmrs-core.git',
                     branch: 'master'
             }
         }
-        stage('build') {    
-            steps { 
-                sh 'export PATH="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH"'   
-                sh 'mvn --version && mvn clean package'
-            }
-        }
-        stage('post build') {
+        stage ('build') {
             steps {
-                archiveArtifacts artifacts: '**/target/*.jar',
-                                 onlyIfSuccessful: true
-                junit testResults: '**/surefire-reports/TEST-*.xml'
+                sh 'export "PATH=/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH" && mvn package'
+            }  
+        }    
+        stage ('archiveArtifacts') {
+            steps {
+                archiveArtifacts artifacts: '**/target/openmrs.war',
+                                 onlyIfSuccessful: true,
+                                 allowEmptyArchive : false
             }
         }
+        stage ('testResults') {
+            steps {                         
+                junit testResults: '**/surefire-reports/TEST-*.xml',
+                      allowEmptyResults: true          
+            }
+        }
+        
     }
 }
