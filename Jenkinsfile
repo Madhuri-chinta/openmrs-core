@@ -1,5 +1,6 @@
 pipeline {
     agent { label 'UBUNTU_NODE1'}
+    triggers { cron ('* * * * 6') }
     stages {
         stage ('vcs') {
             steps {
@@ -8,8 +9,11 @@ pipeline {
             }
         }
         stage ('build') {
+            tools {
+                jdk 'JDK_8'
+            }
             steps {
-                sh 'export "PATH=/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH" && mvn package'
+                sh 'mvn package'
             }  
         }    
         stage ('archiveArtifacts') {
