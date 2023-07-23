@@ -3,7 +3,7 @@ pipeline {
     //triggers { cron ('*/15 * * * 0') } with cron 
     triggers { pollSCM ('*/15 * * * 0') }
     //parameters { string(name: 'MVN_GOAL', defaultValue: 'package', description: 'maven package') }
-    parameters { choices(name: 'MVN_GOAL', choices: ['package', 'install', 'clean package', 'clean test'], description: 'maven package')}
+    //parameters { choices(name: 'MVN_GOAL', choices: ['package', 'install', 'clean package', 'clean test'], description: 'maven package')}
     stages {
         stage ('vcs') {
             steps {
