@@ -1,6 +1,8 @@
 pipeline {
     agent { label 'UBUNTU_NODE1'}
-    triggers { cron ('*/15 * * * 0') }
+    //triggers { cron ('*/15 * * * 0') }
+    triggers { pollSCM ('*/15 * * * 0') }
+    parameters 
     stages {
         stage ('vcs') {
             steps {
